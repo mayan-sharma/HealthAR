@@ -1,0 +1,15 @@
+@font-face {
+  font-family: Roboto;
+  src: url(./RobotoCondensed-Bold.ttf);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Roboto;
+  background-color: #687ea3;
+  letter-spacing: 0.4rem;
+}

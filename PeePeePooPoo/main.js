@@ -4,11 +4,17 @@ let poses = [];
 
 getPose = (callback) => {
 
+	console.log(Math.atan(Math.PI / 2))
 	poseNet.on("pose", function (results) {
 		poses = results;
 		console.log(poses);
-		if (!callback(poses[0].pose.keypoints))
-			console.log('wrong pose');
+		if (poses.length) {
+			if (!callback(poses[0].pose.keypoints))
+				console.log('wrong pose');
+			else {
+				console.warn('Correct Pose');
+			}
+		}
 		// if (flag) {
 		// 	console.log(poses);
 		// 	flag = false;
@@ -26,13 +32,13 @@ findSlope = (x1, y1, x2, y2) => {
 checkColinear = (x1, y1, x2, y2, x3, y3) => {
 	let slope1 = findSlope(x1, y1, x2, y2);
 	let slope2 = findSlope(x2, y2, x3, y3);
-	return slope1 == slope2;
+	return (Math.atan(slope1) - 5 <= Math.atan(slope2) && Math.atan(slope1) + 5 >= Math.atan(slope2));
 }
 
 checkRightAngle = (x1, y1, x2, y2, x3, y3) => {
 	let slope1 = findSlope(x1, y1, x2, y2);
 	let slope2 = findSlope(x2, y2, x3, y3);
-	return slope1 * slope2 == -1;
+	return (Math.abs(Math.atan(slope1) - Math.atan(slope2)) >= 85 && Math.abs(Math.atan(slope1) - Math.atan(slope2)) <= 95);
 }
 
 checkPose = keypointsArr => {
@@ -49,9 +55,11 @@ checkPose = keypointsArr => {
 	// for Right side
 
 	if (checkColinear(x[12], y[12], x[14], y[14], x[16], y[16]) && checkRightAngle(x[6], y[6], x[8], y[8], x[10], y[10])) {
+		console.log('mayan chutiya');
 		return true;
 	}
 	else {
+		console.log('chutiya')
 		return false;
 	}
 
